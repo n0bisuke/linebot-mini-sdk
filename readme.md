@@ -3,6 +3,10 @@
 
 ## sample
 
+```
+$ npm i hono linebot-mini-sdk
+```
+
 ```ts
 import { Hono } from 'hono'
 import line from 'linebot-mini-sdk'
