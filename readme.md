@@ -42,11 +42,11 @@ const handleEvent = async (event: any) => {
   try {
     const res = await client.replyMessage(event.replyToken, message);
     const json = await res.json();
-    console.log(json);
+    return Promise.resolve(json);
   } catch (error) {
     console.log(error)
+    return Promise.resolve(error);
   }
-  return Promise.resolve(null);
 }
 
 app.post('/webhook', line.middleware, async (c) => {
@@ -54,11 +54,11 @@ app.post('/webhook', line.middleware, async (c) => {
     try {
       const body = await c.req.json();
       const events: any[] = body.events; // Explicitly define the type of 'events' as 'any[]'
-      console.log(events);
+      console.log(`req:`,events);
       const responses = await Promise.all(events.map((event: any) => handleEvent(event))); // Explicitly define the type of 'event' as 'any'
-      console.log(responses[0]);
-      return c.json({ message: "ok" });
+      console.log(`res:`,responses[0]);
 
+      return c.json({ message: "ok" });
   } catch (error) {
       console.log(error)
   }
